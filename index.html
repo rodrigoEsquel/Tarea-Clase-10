@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,21 +8,30 @@
     <link rel="stylesheet" href="node_modules\bootstrap\dist\css\bootstrap.min.css">
     <title>Document</title>
 </head>
+
 <body>
     <nav></nav>
     <div class="container">
-        <div>
-            <div id="contador"></div>
-            <div id="estado"></div>
+        <div class="row">
+            <div id="contador" class="col">Nivel:</div>
+            <div id="estado" class="col">Toque Iniciar para comenzar</div>
+            <button id="start" class="col">Iniciar</button>
         </div>
-        <div>
-            <div id="boton-1" class="boton"></div>
-            <div id="boton-2" class="boton"></div>
-            <div id="boton-3" class="boton"></div>
-            <div id="boton-4" class="boton"></div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="row">
+                    <button id="boton-1" class="boton col">1</button>
+                    <button id="boton-2" class="boton col">2</button>
+                </div>
+                <div class="row">
+                    <button id="boton-3" class="boton col">3</button>
+                    <button id="boton-4" class="boton col">4</button>
+                </div>
+            </div>
         </div>
     </div>
     <script src="index.js"></script>
     <script src="index-test.js"></script>
 </body>
+
 </html>
