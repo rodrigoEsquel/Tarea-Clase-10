@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="node_modules\bootstrap\dist\css\bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
     <title>Document</title>
 </head>
 
@@ -13,19 +14,19 @@
     <nav></nav>
     <div class="container">
         <div class="row">
-            <div id="contador" class="col">Nivel:</div>
-            <div id="estado" class="col">Toque Iniciar para comenzar</div>
+            <div id="nivel" class="col">Nivel:</div>
+            <div id="display" class="col"></div>
             <button id="start" class="col">Iniciar</button>
         </div>
         <div class="row justify-content-center">
-            <div class="col-4">
+            <div class="col-4 rounded-circle">
                 <div class="row">
-                    <button id="boton-1" class="boton col">1</button>
-                    <button id="boton-2" class="boton col">2</button>
+                    <button id="boton-1" class="boton col bg-primary">1</button>
+                    <button id="boton-2" class="boton col bg-warning">2</button>
                 </div>
                 <div class="row">
-                    <button id="boton-3" class="boton col">3</button>
-                    <button id="boton-4" class="boton col">4</button>
+                    <button id="boton-3" class="boton col bg-danger">3</button>
+                    <button id="boton-4" class="boton col bg-success">4</button>
                 </div>
             </div>
         </div>
