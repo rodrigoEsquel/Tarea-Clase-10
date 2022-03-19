@@ -1,88 +1,117 @@
-let secuenciaMaquina = [];
-let secuenciaJugador = [];
-let nivel = 0;
-let display = document.querySelector("#display");
+function simonDice() {
+  /* GLOBALES */
+  let secuenciaMaquina = [];
+  let nivel = 0;
+  const $display = document.querySelector("#display");
+  const $botonesUsuario = document.querySelectorAll(".boton");
+  const DETENIDO = "detenido",
+    MAQUINA = "maquina",
+    JUGADOR = "jugador",
+    ERROR = "error";
+  const ESTADOS = {
+    detenido: "Toque Iniciar para comenzar",
+    maquina: "Turno de la Máquina",
+    jugador: "Tu turno",
+    error: "Error, reinicie el juego",
+  };
 
-const ESTADOS = {
-  detenido: "Toque Iniciar para comenzar",
-  maquina: "Turno de la Máquina",
-  jugador: "Tu turno",
-  error: "Error, reinicie el juego",
-};
+  /* FIN GLOBALES */
 
-function cambiarDisplay(estado) {
-  display.innerText = ESTADOS[estado];
-}
+  function cambiarDisplay(estado) {
+    $display.innerText = ESTADOS[estado];
+  }
 
-function resetearVariables() {
-  cambiarDisplay("detenido");
-  secuenciaMaquina = [];
-  secuenciaJugador = [];
-  nivel = 0;
-}
+  function resetearVariables() {
+    secuenciaMaquina = [];
+    nivel = 0;
+  }
 
-function generarRandom() {
-  return Math.ceil(Math.random() * 4);
-}
+  function generarRandom() {
+    return Math.ceil(Math.random() * 4);
+  }
 
-function seleccionarBoton(num) {
-  return document.querySelector(`#boton-${num}`);
-}
+  function seleccionarBoton(num) {
+    return document.querySelector(`#boton-${num}`);
+  }
 
-function marcarBoton(elemento) {
-  elemento.classList.add("bg-opacity-50");
-  console.log("ahora");
-  setTimeout(function () {
-    elemento.classList.remove("bg-opacity-50");
-  }, 500);
-}
-
-function marcarSecuencia() {
-  secuenciaMaquina.forEach(function (elemento,indice) {
+  function marcarBoton(elemento) {
+    elemento.classList.add("bg-opacity-50");
     setTimeout(function () {
-      marcarBoton(seleccionarBoton(elemento));
-    }, 1000*indice); 
-  });
-}
+      elemento.classList.remove("bg-opacity-50");
+    }, 500);
+  }
 
-function turnoJugador() {
-  cambiarDisplay("jugador");
-}
+  function marcarSecuencia(secuenciaMaquina) {
+    secuenciaMaquina.forEach(function (elemento, indice) {
+      setTimeout(function () {
+        marcarBoton(seleccionarBoton(elemento));
+      }, 1000 * indice);
+    });
+  }
 
-function extenderSecuenciaMaquina() {
-  const idBotonNuevo = generarRandom();
-  secuenciaMaquina.push(idBotonNuevo);
-}
+  function manejarClick(evento) {
+    if (evento.target.id !== secuenciaComparacion.shifth()) {
+      perder();
+    }
+    if (secuenciaComparacion.length === 0) {
+      pasarTurno();
+    }
+  }
 
-function pasarTurno() {
-  if (display.innerText === ESTADOS.maquina) {
-    turnoJugador();
-  } else if (
-    display.innerText === ESTADOS.jugador ||
-    display.innerText === ESTADOS.detenido
-  ) {
-    turnoMaquina();
-  } else cambiarDisplay("error");
-}
+  function inicializarSecuenciaComparacion() {
+    return [...secuenciaMaquina];
+  }
 
-function subirNivel() {
-  nivel++;
-  document.querySelector("#nivel").innerText = `Nivel: ${nivel}`;
-}
+  function habilitarInput() {
+    $botonesUsuario.forEach(function (elemento) {
+      elemento.onclick = manejarClick;
+    });
+  }
 
-function turnoMaquina() {
-  cambiarDisplay("maquina");
-  subirNivel();
-  extenderSecuenciaMaquina();
-  marcarSecuencia();
-  setTimeout(function () {
+  function turnoJugador() {
+    cambiarDisplay(JUGADOR);
+    let secuenciaComparacion = inicializarSecuenciaComparacion();
+    habilitarInput();
+  }
+
+  function extenderSecuenciaMaquina(secuenciaMaquina) {
+    const idBotonNuevo = generarRandom();
+    secuenciaMaquina.push(`boton-${idBotonNuevo}`);
+  }
+
+  function pasarTurno() {
+    if ($display.innerText === ESTADOS.maquina) {
+      turnoJugador();
+    } else if (
+      $display.innerText === ESTADOS.jugador ||
+      $display.innerText === ESTADOS.detenido
+    ) {
+      turnoMaquina();
+    } else cambiarDisplay(ERROR);
+  }
+
+  function subirNivel() {
+    nivel++;
+    document.querySelector("#nivel").innerText = `Nivel: ${nivel}`;
+  }
+
+  function turnoMaquina() {
+    cambiarDisplay(MAQUINA);
+    inhabilitarJugador();
+    subirNivel();
+    extenderSecuenciaMaquina();
+    marcarSecuencia();
+    setTimeout(function () {
+      pasarTurno();
+    }, 1000 * (secuenciaMaquina.length + 0.5));
+  }
+
+  function comenzarJuego() {
+    resetearVariables();
     pasarTurno();
-  }, 1000*(secuenciaMaquina.length+0.5));  
+  }
+  cambiarDisplay(DETENIDO);
+  document.querySelector("#start").onclick = comenzarJuego;
 }
 
-function comenzarJuego() {
-  resetearVariables();
-  pasarTurno();
-}
-
-document.querySelector("#start").onclick = comenzarJuego;
+simonDice();
